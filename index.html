@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Custom CSS for the game */
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+    }
+    .card.flipped .front {
+      visibility: hidden;
+    }
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+    }
+    .back {
+      background-color: #ececec;
+    }
+    .player-scores, .stats {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .stats p, .player-scores p {
+      font-size: 1.2rem;
+    }
+    .music-controls {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .board-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .board-content {
+      background-color: white;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Memory Game</h1>
+  <p>Click on two cards to find a match!</p>
+
+  <!-- Game Mode Selector -->
+  <div class="game-mode">
+    <label for="game-mode">Choose Game Mode:</label>
+    <select id="game-mode">
+      <option value="single">Single Player</option>
+      <option value="two-player">Two Players</option>
+    </select>
+  </div>
+
+  <!-- Difficulty Selector -->
+  <div class="difficulty">
+    <label for="difficulty">Choose Difficulty:</label>
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+  </div>
+
+  <!-- Emoji Selector -->
+  <div class="emoji-selection">
+    <label for="emoji-picker">Choose at least 10 emojis:</label><br>
+    <textarea id="emoji-picker" rows="4" cols="50" placeholder="Enter at least 10 emojis, separated by commas..."></textarea>
+  </div>
+
+  <!-- Timer Mode Selector -->
+  <div class="timer-mode">
+    <label for="timer-mode">Choose Timer Mode:</label>
+    <select id="timer-mode">
+      <option value="off">No Timer</option>
+      <option value="short">60 seconds</option>
+      <option value="long">120 seconds</option>
+    </select>
+  </div>
+
+  <div class="game-board"></div>
+
+  <!-- Player Scores -->
+  <div class="player-scores">
+    <p>Player 1 Score: <span id="player1-score">0</span></p>
+    <p>Player 2 Score: <span id="player2-score">0</span></p>
+    <p>Current Turn: <span id="current-turn">Player 1</span></p>
+  </div>
+
+  <div class="stats">
+    <p>Moves: <span id="moves">0</span></p>
+    <p>Time: <span id="timer">0</span> seconds</p>
+  </div>
+  
+  <div class="music-controls">
+    <button id="play-music">Play Music</button>
+    <button id="pause-music">Pause Music</button>
+    <button id="mute-music">Mute</button>
+    <input id="volume-control" type="range" min="0" max="1" step="0.1" value="0.5">
+  </div>
+
+  <button id="play-again" style="display: none;">Play Again</button>
+
+  <!-- Audio files -->
+  <audio id="background-music" loop>
+    <source src="bg-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="flip-sound">
+    <source src="flip-sound.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="win-sound">
+    <source src="win-sound.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="loss-sound">
+    <source src="loss-sound.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script src="script.js"></script>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-content">
+    <button id="close-sidebar" class="close-btn">&times;</button>
+    <h2>Features</h2>
+    <ul>
+      <li><button id="toggle-dark-mode">Dark Mode</button></li>
+      <li><button id="show-rules">Game Rules</button></li>
+      <li><button id="sound-settings">Sound Settings</button></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Three-dot menu icon -->
+<div class="menu-icon">
+  <button id="open-sidebar">&#x22EE;</button>
+</div>
+</body>
+</html>
